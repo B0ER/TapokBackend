@@ -5,6 +5,6 @@ export function isAuthorizedMiddleware(req: Request, res: Response, next: (err?:
     next();
   }
   else {
-    res.redirect('/login');
+    res.sendStatus(401);
   }
 }

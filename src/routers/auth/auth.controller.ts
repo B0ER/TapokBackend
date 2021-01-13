@@ -1,4 +1,7 @@
 import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
+import { UserEntity } from "../../shared/db/entities";
+import { HttpException } from "../../shared/exceptions";
 import { AuthService } from "./auth.service";
 import { RegisterModel } from "./models";
 
@@ -18,7 +21,14 @@ export class AuthController {
 
   async login(req: Request, res: Response, next: (err?: Error) => void) {
     try {
-      res.status(200).end();
+      const userEntity: UserEntity = req.user as UserEntity;
+      if (!userEntity) {
+        throw new HttpException(undefined, StatusCodes.UNAUTHORIZED);
+      }
+
+      const response = await this.authService.login(userEntity);
+
+      return res.status(200).json(response);
     } catch (err) {
       next(err);
     }

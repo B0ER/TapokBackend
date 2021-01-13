@@ -9,7 +9,7 @@ export function createAuthRouter(): Router {
   const router = Router();
 
   router.post('/register', (req, res, next) => authController.register(req, res, next));
-  router.post('/login', passport.authenticate('local'), (req, res, next) => authController.login(req, res, next));
+  router.post('/login', passport.authenticate('local', { session: false }), (req, res, next) => authController.login(req, res, next));
 
   return router;
 }

@@ -9,7 +9,7 @@ export function createProductRouter(): Router {
   const router = Router();
   const productController = new ProductController(new ProductService());
 
-  router.get("/", isAuthorizedMiddleware, (req, res, next) => productController.getAll(req, res, next));
+  router.get("/", (req, res, next) => productController.getAll(req, res, next));
 
   return router;
 }

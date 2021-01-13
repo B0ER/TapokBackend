@@ -1,6 +1,7 @@
 import { getManager, Repository } from "typeorm";
 import { StatusCodes } from "http-status-codes";
 import * as bcrypt from "bcrypt";
+import * as jwt from 'jsonwebtoken';
 
 import { UserEntity } from "../../shared/db/entities";
 import { HttpException } from "../../shared/exceptions";
@@ -25,5 +26,10 @@ export class AuthService {
     newUser.passwordHash = await bcrypt.hash(registerModel.password, await bcrypt.genSalt());
 
     await this.userRepository.save(newUser);
+  }
+
+  async login(userEntity: UserEntity) {
+    const token = jwt.sign({ id: userEntity.id, username: userEntity.username }, 's9LeL2LWbjxjVsrp');
+    return { token };
   }
 }

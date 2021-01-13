@@ -1,21 +1,16 @@
 import express, { Request, Response } from 'express';
-import expressSession from 'express-session';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import { passport } from './shared/libs/passport';
 import { createRootRouter } from "./routers";
 
-const sessionSecret = "s9LeL2LWbjxjVsrp";
-
 function createApp() {
   const expressApp = express();
 
   expressApp.use(bodyParser.json());
   expressApp.use(cors());
-  expressApp.use(expressSession({ secret: sessionSecret, resave: false, saveUninitialized: false }));
   expressApp.use(passport.initialize());
-  expressApp.use(passport.session());
 
 
   expressApp.use('/', createRootRouter());

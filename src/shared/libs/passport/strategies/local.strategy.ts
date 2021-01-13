@@ -2,10 +2,10 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { getManager } from "typeorm";
 import * as bcrypt from "bcrypt";
+import { StatusCodes } from "http-status-codes";
 
 import { UserEntity } from "../../../db/entities";
 import { HttpException } from "../../../exceptions";
-import { StatusCodes } from "http-status-codes";
 
 
 passport.use('local', new LocalStrategy((username, password, done) => {

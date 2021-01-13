@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ProductEntity } from "./product.entity";
 import { UserEntity } from "./user.entity";
 
@@ -10,6 +10,9 @@ export class CartEntity {
   @ManyToOne(type => UserEntity, { lazy: true, nullable: false })
   user!: Promise<UserEntity>;
 
-  @ManyToOne(type => ProductEntity, { lazy: true , nullable: false })
+  @ManyToOne(type => ProductEntity, { lazy: true, nullable: false })
   product!: Promise<ProductEntity>;
+
+  @Column({ unsigned: true })
+  count!: number;
 }

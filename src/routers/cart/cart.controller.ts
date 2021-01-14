@@ -20,7 +20,7 @@ export class CartController {
     try {
       const user: UserEntity = req.user as UserEntity;
       const response = await this.cartService.addToCart(user, req.params.productId);
-      res.status(200).json(response);
+      res.status(200).end();
     } catch (err) {
       next(err);
     }
@@ -29,29 +29,20 @@ export class CartController {
   async deleteFromCart(req: Request, res: Response, next: (err?: Error) => void) {
     try {
       const user: UserEntity = req.user as UserEntity;
-      const response = await this.cartService.deleteFromCart(user, req.params.productId);
+      const response = await this.cartService.deleteFromCart(user, req.params.cartProductId);
       res.status(200).json(response);
     } catch (err) {
       next(err);
     }
   }
 
-  async incrementCount(req: Request, res: Response, next: (err?: Error) => void) {
+  async saveCount(req: Request, res: Response, next: (err?: Error) => void) {
     try {
       const user: UserEntity = req.user as UserEntity;
-      await this.cartService.incrementCount(user, req.params.productId);
+      const count: number = req.body.count as number;
+      await this.cartService.saveCount(user, req.params.cartProductId, count);
       res.sendStatus(200);
-    } catch(err) {
-      next(err);
-    }
-  }
-
-  async decrementCount(req: Request, res: Response, next: (err?: Error) => void) {
-    try {
-      const user: UserEntity = req.user as UserEntity;
-      await this.cartService.decrementCount(user, req.params.productId);
-      res.sendStatus(200);
-    } catch(err) {
+    } catch (err) {
       next(err);
     }
   }
@@ -59,8 +50,10 @@ export class CartController {
   async buyCartItems(req: Request, res: Response, next: (err?: Error) => void) {
     try {
       const user: UserEntity = req.user as UserEntity;
-      throw new Error("Not implemented!");
-    } catch(err) {
+      const paypalOrderId: string = req.body.orderId;
+      const response = await this.cartService.buyCartItems(user, paypalOrderId);
+      res.status(200).json(response);
+    } catch (err) {
       next(err);
     }
   }

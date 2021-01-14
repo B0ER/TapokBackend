@@ -13,7 +13,7 @@ function createApp() {
   expressApp.use(passport.initialize());
 
 
-  expressApp.use('/', createRootRouter());
+  expressApp.use('/api', createRootRouter());
 
   expressApp.use((err: Error & { code?: number }, req: Request, res: Response, next: (err?: Error) => void) => {
     console.error(err.stack);
